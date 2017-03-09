@@ -19,6 +19,7 @@ public class DiGraphTest {
 		System.out.println("- edge count (enter e)");
 		System.out.println("- vertex count (enter v)");
 		System.out.println("- print graph (enter p)");
+      System.out.println("- topological sort (enter t)");
 		System.out.println("- Quit (enter q)");
 
 		do {
@@ -54,6 +55,14 @@ public class DiGraphTest {
 			   case 'q' :
 			   	System.out.println("Quitting program");
 			   	break;
+               
+            case 't' :
+               System.out.println("Indegrees:");
+               int[] res = graph.topSort();
+               for (int i = 0; i < res.length; i++) {
+                  System.out.println(res[i] + ", ");
+               }
+               break;
 
 			   default :
 			   	System.out.println("Invalid command");
