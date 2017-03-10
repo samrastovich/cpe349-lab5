@@ -66,7 +66,6 @@ public class DiGraph {
       
       while (!queue.isEmpty()) {
          int node = queue.poll(); //dequeue first element and append
-         //System.out.println("DEBUG - node = " + (node + 1));
          res[cntr++] = node;
          for (int adj: graph[node]) { //reduce indegrees of all adjacent nodes
             if (indegrees[adj] > 0)
@@ -76,7 +75,6 @@ public class DiGraph {
             		indegrees[adj]--;
             	}
          }
-         //addZeroIndegrees(indegrees, queue);
          visitedVertices++;
       }
       
