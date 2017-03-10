@@ -66,17 +66,22 @@ public class DiGraph {
       
       while (!queue.isEmpty()) {
          int node = queue.poll(); //dequeue first element and append
+         //System.out.println("DEBUG - node = " + (node + 1));
          res[cntr++] = node;
          for (int adj: graph[node]) { //reduce indegrees of all adjacent nodes
             if (indegrees[adj] > 0)
                indegrees[adj]--;
+            	if (indegrees[adj] == 0) {
+            		queue.addLast(adj);
+            		indegrees[adj]--;
+            	}
          }
-         addZeroIndegrees(indegrees, queue);
+         //addZeroIndegrees(indegrees, queue);
          visitedVertices++;
       }
       
       if (visitedVertices != graph.length)
-         throw new IllegalArgumentException("This graph is cyclic");
+         throw new IllegalArgumentException();
       else
          return res;
    }

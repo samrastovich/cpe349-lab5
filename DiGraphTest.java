@@ -5,14 +5,16 @@ public class DiGraphTest {
    public static void main(String[] arg) {
       Scanner in = new Scanner(System.in);
       int numVert, exInput1, exInput2;
+      String buffer;
       char input;
       DiGraph graph;
 
-      System.out.print("Enter the number of vertices: ");
+      System.out.println("Enter the number of vertices: ");
 		numVert = in.nextInt();
 
 		graph = new DiGraph(numVert);
 
+		System.out.println();
 		System.out.println("Choose one of the following operations: ");
 		System.out.println("- add edge (enter a)");
 		System.out.println("- delete edge (enter d)");
@@ -21,22 +23,31 @@ public class DiGraphTest {
 		System.out.println("- print graph (enter p)");
       System.out.println("- topological sort (enter t)");
 		System.out.println("- Quit (enter q)");
+		System.out.println();
 
+		buffer = in.nextLine();
 		do {
 			System.out.println("Enter command: ");
-			input = in.next().charAt(0);
-
+			buffer = in.nextLine();
+			if (buffer.length() > 1) {
+				input = buffer.charAt(0);
+				System.out.println(input + " is an invalid command");
+			}
+			else {
+			input = buffer.charAt(0);
 			switch (input) {
 				case 'a' :
 				   System.out.println("Enter vertices to connect separated by a space: ");
 			      graph.addEdge((exInput1 = in.nextInt()), (exInput2 = in.nextInt()));
-			      System.out.println("Added edge between " + exInput1 + " and " + exInput2);
-			      break;
+			      System.out.println("Added edge (" + exInput1 + "," + exInput2 + ")");
+					buffer = in.nextLine();
+					break;
 
 			   case 'd' :
 			   	System.out.println("Enter vertices to disconnect separated by a space: ");
 			   	graph.deleteEdge((exInput1 = in.nextInt()), (exInput2 = in.nextInt()));
-			   	System.out.println("Deleted edge between " + exInput1 + " and " + exInput2);
+			   	System.out.println("Deleted edge (" + exInput1 + "," + exInput2 + ")");
+					buffer = in.nextLine();
 			   	break;
 
 			   case 'e' :
@@ -51,22 +62,32 @@ public class DiGraphTest {
 			   	System.out.println("The graph is the following: ");
 			   	graph.print();
 			   	break;
-
-			   case 'q' :
-			   	System.out.println("Quitting program");
-			   	break;
                
             case 't' :
-               System.out.println("Indegrees:");
-               int[] res = graph.topSort();
-               for (int i = 0; i < res.length; i++) {
-                  System.out.println(res[i] + ", ");
+               try {
+						int[] res = graph.topSort();
+               	System.out.println("Indegrees:");
+                  for (int i = 0; i < res.length; i++) {
+                     System.out.print((res[i] + 1));
+                     if (i < res.length - 1)
+                     	System.out.print(", ");
+                  }
+                  System.out.println();
+               }
+               catch (IllegalArgumentException e) {
+						System.out.println("This graph is cyclic");
                }
                break;
 
+            case 'q' :
+            	System.out.println("Quitting program");
+            	break;
+
 			   default :
-			   	System.out.println("Invalid command");
+			   	System.out.println(input + " is an invalid command");
+					//buffer = in.nextLine();
 			   	break;
+			}
 			}
 		}
 		while (input != 'q');
