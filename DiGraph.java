@@ -47,26 +47,38 @@ public class DiGraph {
       return indegrees;
    }
    
-   public int[] topSort() {
-      LinkedList<Integer> noIns = new LinkedList<Integer>();
-      int[] res = new int[graph.length];
-      int[] indegrees = this.indegrees();
-      int tail = 0;
+   private void addZeroIndegrees(int[] indegrees, LinkedList<Integer> queue) {
       
-      for (int i = 0; i < graph.length; i++) {
-         if (indegrees[i] == 0)
-            noIns.add(i);
-      }
-      while (noIns.size() > 0) {
-         int node = noIns.poll();
-         res[tail] = node;
-         tail++;
-         indegrees = this.indegrees();
-         for (int i = 0; i < graph.length; i++) {
-            if (indegrees[i] == 0)
-               noIns.add(i);
+      for (int i = 0; i < indegrees.length; i++) {
+         if (indegrees[i] == 0) {
+            queue.addLast(i);
+            indegrees[i]--;
          }
       }
+   }
+   
+   public int[] topSort() throws IllegalArgumentException {
+      int[] res = new int[graph.length]; //the result of the sort
+      int[] indegrees = this.indegrees(); //find indegrees of all vertices
+      LinkedList<Integer> queue = new LinkedList<Integer>(); //initialize a queue for vertices with 0 indegrees
+      addZeroIndegrees(indegrees, queue); //add all nodes with 0 indegrees to the queue
+      int cntr = 0, visitedVertices = 0;
+      
+      while (!queue.isEmpty()) {
+         int node = queue.poll(); //dequeue first element and append
+         res[cntr++] = node;
+         for (int adj: graph[node]) { //reduce indegrees of all adjacent nodes
+            if (indegrees[adj] > 0)
+               indegrees[adj]--;
+         }
+         addZeroIndegrees(indegrees, queue);
+         visitedVertices++;
+      }
+      
+      if (visitedVertices != graph.length)
+         throw new IllegalArgumentException("This graph is cyclic");
+      else
+         return res;
    }
    
    public void print() {
