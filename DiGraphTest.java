@@ -22,6 +22,9 @@ public class DiGraphTest {
 		System.out.println("- vertex count (enter v)");
 		System.out.println("- print graph (enter p)");
       System.out.println("- topological sort (enter t)");
+      System.out.println("- is there a path (enter i)");
+      System.out.println("- length of the path (enter l)");
+      System.out.println("- shortest path (enter s)");
 		System.out.println("- Quit (enter q)");
 		System.out.println();
 
@@ -83,9 +86,33 @@ public class DiGraphTest {
             	System.out.println("Quitting program");
             	break;
 
+            case 'i' :
+            	System.out.println("Enter start and end vertices, separated by a space");
+            	Boolean res = graph.isTherePath((exInput1 = in.nextInt()) - 1, (exInput2 = in.nextInt()) - 1);
+            	if (res == true) {
+						System.out.println("There IS a path between " + exInput1 + " and " + exInput2);
+            	}
+            	else {
+						System.out.println("NO path exists");
+            	}
+            	buffer = in.nextLine();
+					break;
+
+            case 'l' :
+            	System.out.println("Enter start and end vertices, separated by a space");
+            	int length = graph.lengthOfPath((exInput1 = in.nextInt()) - 1, (exInput2 = in.nextInt()) - 1);
+            	System.out.println("Length of shortest path between " + exInput1 + " and " + exInput2 + " is: " + length);
+					buffer = in.nextLine();
+					break;
+
+            case 's' :
+            	System.out.println("Enter start and end vertices, separated by a space");
+					graph.printPath((exInput1 = in.nextInt()) - 1, (exInput2 = in.nextInt()) - 1);
+					buffer = in.nextLine();
+					break;
+
 			   default :
 			   	System.out.println(input + " is an invalid command");
-					//buffer = in.nextLine();
 			   	break;
 			}
 			}

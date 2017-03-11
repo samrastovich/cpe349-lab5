@@ -83,6 +83,68 @@ public class DiGraph {
       else
          return res;
    }
+
+   private class VertexInfo {
+   	int dist, pred;
+   }
+
+   private VertexInfo[] BFS(int s) {
+		int numVert = graph.length, cur;
+		VertexInfo[] res = new VertexInfo[numVert];
+
+		for (int i = 0; i < numVert; i++) { //Initialization
+			res[i] = new VertexInfo();
+			res[i].dist = -1;
+			res[i].pred = -1;
+		}
+
+		res[s].dist = 0;
+
+		LinkedList<Integer> queue = new LinkedList<Integer>();
+		queue.addLast(s);
+
+		while (!queue.isEmpty()) {
+			cur = queue.poll();
+			for (int v : graph[cur]) {
+				if (res[v].dist == -1) {
+					res[v].dist = res[cur].dist + 1;
+					res[v].pred = cur;
+					queue.addLast(v);
+				}
+			}
+		}
+
+		return res;
+   }
+
+   public Boolean isTherePath(int from, int to) {
+   	VertexInfo[] res = BFS(from);
+
+   	return !(res[to].dist == -1);
+   }
+
+   public int lengthOfPath(int from, int to) {
+   	VertexInfo[] res = BFS(from);
+
+   	return res[to].dist;
+   }
+
+   public void printPath(int from, int to) {
+   	VertexInfo[] res = BFS(from);
+
+   	if (res[to].dist == -1) {
+			System.out.println("There is no path");
+   	}
+   	else {
+			String output = "";
+			while (from != to) {
+				output = "-> " + (to + 1) + " " + output;
+				to = res[to].pred;
+			}
+			output = (from + 1) + " " + output;
+			System.out.println(output);
+   	}
+   }
    
    public void print() {
       for (int i = 0; i < graph.length; i++) {
