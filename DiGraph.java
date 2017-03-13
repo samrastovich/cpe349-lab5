@@ -154,7 +154,6 @@ public class DiGraph {
    private TreeNode buildTree(int s) {
    	VertexInfo[] bfsArray = BFS(s);
    	TreeNode[] nodes = new TreeNode[graph.length];
-   	TreeNode root = new TreeNode();
 
    	for (int i = 0; i < graph.length; i++) {
 			nodes[i] = new TreeNode();
@@ -166,31 +165,26 @@ public class DiGraph {
 			if (bfsArray[i].pred != -1) {
 				nodes[bfsArray[i].pred].children.add(nodes[i]);
 			}
-			else {
-				root = nodes[i];
-			}
    	}
 
-   	return root;
+   	return nodes[s];
    }
 
    public void printTree(int s) {
-		TreeNode root = buildTree(s);
-		
-		recurPrint(root);
+      System.out.println("root is: " + s);
+		TreeNode root = buildTree(s - 1);
+      
+		recurPrint(root, 1);
    }
 
-   private int recurPrint(TreeNode root) {
-		if (root.children.isEmpty()) {
-			return root.vertNum;
-		}
-		else {
-			System.out.println(root.vertNum);
-			for (TreeNode curChild : root.children) {
-				System.out.println("    ");
-			}
-			return recurPrint(curChild);
-		}
+   private void recurPrint(TreeNode root, int indent) {
+      System.out.println(root.vertNum + 1);
+      for (TreeNode cur: root.children) {
+         for (int i = indent; i > 0; i--) {
+            System.out.print(" ");
+         }
+         recurPrint(cur, indent * 3);
+      }
    }
    
    public void print() {

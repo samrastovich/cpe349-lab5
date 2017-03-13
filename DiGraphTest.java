@@ -25,6 +25,7 @@ public class DiGraphTest {
       System.out.println("- is there a path (enter i)");
       System.out.println("- length of the path (enter l)");
       System.out.println("- shortest path (enter s)");
+      System.out.println("- print the breadth-first-tree (enter b)");
 		System.out.println("- Quit (enter q)");
 		System.out.println();
 
@@ -110,6 +111,12 @@ public class DiGraphTest {
 					graph.printPath((exInput1 = in.nextInt()) - 1, (exInput2 = in.nextInt()) - 1);
 					buffer = in.nextLine();
 					break;
+               
+            case 'b':
+               System.out.println("Enter start vertext to print");
+               graph.printTree(in.nextInt());
+               buffer = in.nextLine();
+               break;
 
 			   default :
 			   	System.out.println(input + " is an invalid command");
