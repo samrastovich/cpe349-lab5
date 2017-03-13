@@ -171,7 +171,6 @@ public class DiGraph {
    }
 
    public void printTree(int s) {
-      System.out.println("root is: " + s);
 		TreeNode root = buildTree(s - 1);
       
 		recurPrint(root, 1);

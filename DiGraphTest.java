@@ -113,7 +113,7 @@ public class DiGraphTest {
 					break;
                
             case 'b':
-               System.out.println("Enter start vertext to print");
+               System.out.println("Enter start vertex to print");
                graph.printTree(in.nextInt());
                buffer = in.nextLine();
                break;
