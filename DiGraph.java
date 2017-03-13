@@ -145,6 +145,53 @@ public class DiGraph {
 			System.out.println(output);
    	}
    }
+
+   private class TreeNode {
+		int vertNum;
+		LinkedList<TreeNode> children;
+   }
+
+   private TreeNode buildTree(int s) {
+   	VertexInfo[] bfsArray = BFS(s);
+   	TreeNode[] nodes = new TreeNode[graph.length];
+   	TreeNode root = new TreeNode();
+
+   	for (int i = 0; i < graph.length; i++) {
+			nodes[i] = new TreeNode();
+			nodes[i].vertNum = i;
+			nodes[i].children = new LinkedList<TreeNode>();
+   	}
+
+   	for (int i = 0; i < bfsArray.length; i++) {
+			if (bfsArray[i].pred != -1) {
+				nodes[bfsArray[i].pred].children.add(nodes[i]);
+			}
+			else {
+				root = nodes[i];
+			}
+   	}
+
+   	return root;
+   }
+
+   public void printTree(int s) {
+		TreeNode root = buildTree(s);
+		
+		recurPrint(root);
+   }
+
+   private int recurPrint(TreeNode root) {
+		if (root.children.isEmpty()) {
+			return root.vertNum;
+		}
+		else {
+			System.out.println(root.vertNum);
+			for (TreeNode curChild : root.children) {
+				System.out.println("    ");
+			}
+			return recurPrint(curChild);
+		}
+   }
    
    public void print() {
       for (int i = 0; i < graph.length; i++) {
